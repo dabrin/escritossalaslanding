@@ -42,6 +42,7 @@ export const chapters = [
   ['#2a2d36', '#efe9df', 'II · El recuerdo'],
   ['#c3c1bd', '#1d1c1b', 'III · Las sombras'],
   ['#e6dcc0', '#1e2b45', 'IV · La nieve'],
+  ['#dde6ea', '#1b2a36', 'Mi libro aventurero'],
   ['#efe9df', '#24211f', 'La autora'],
   ['#e6d3bd', '#33200f', 'La viajera'],
   ['#24211f', '#efe9df', 'Contacto'],

@@ -213,6 +213,37 @@ html[data-menu] .head { color: #efe9df; background: none; }
   .words__word, .words__line, .frag__body p { animation: none; }
 }
 
+/* ── Mi libro aventurero ── */
+.aventura { position: relative; padding: clamp(80px, 12vh, 160px) var(--pad); display: flex; flex-direction: column; gap: 40px; }
+.aventura__head { display: flex; flex-direction: column; gap: 28px; }
+.aventura__big { font-family: var(--serif); font-size: clamp(34px, 4.4vw, 60px); line-height: 1.08; letter-spacing: -.01em; max-width: 22ch; }
+.aventura__chips { display: flex; flex-wrap: wrap; gap: 12px; }
+.chip { background: none; border: 1px solid currentColor; color: inherit; border-radius: 999px; padding: 10px 18px; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; font-weight: 400; opacity: .55; }
+.chip.is-on { opacity: 1; }
+.adv { list-style: none; margin: 0; padding: 0; column-count: 2; column-gap: clamp(10px, 1.6vw, 24px); }
+.adv__item { break-inside: avoid; margin: 0 0 clamp(10px, 1.6vw, 24px); display: flex; flex-direction: column; gap: 10px; }
+.adv__item[hidden] { display: none; }
+.adv__item button { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
+.adv__item img { width: 100%; height: auto; object-fit: cover; box-shadow: 18px 24px 50px -34px rgba(27, 42, 54, .55); transition: transform .5s var(--ease); }
+.adv__item button:hover img { transform: scale(1.015); }
+.adv__more { align-self: center; background: none; border: 0; border-bottom: 1px solid currentColor; color: inherit; padding: 0 0 6px; font-size: 12px; letter-spacing: .2em; text-transform: uppercase; font-weight: 400; }
+.adv__more[hidden] { display: none; }
+@media (min-width: 900px) { .adv { column-count: 3; } }
+@media (min-width: 1300px) { .adv { column-count: 4; } }
+
+.autora__firma { display: flex; gap: 16px; margin-top: 8px; }
+.autora__firma img { width: clamp(110px, 14vw, 180px); aspect-ratio: 3/4; height: auto; object-fit: cover; }
+.autora__firma img:nth-child(2) { margin-top: 32px; }
+
+/* Visor */
+.lb { position: fixed; inset: 0; z-index: 42; background: rgba(14, 16, 20, .94); color: #efe9df; display: flex; flex-direction: column; justify-content: space-between; padding: 20px var(--pad) 28px; }
+.lb__top { display: flex; justify-content: space-between; align-items: center; font-weight: 400; }
+.lb__top button { background: none; border: 0; color: inherit; font: 400 11px var(--sans); letter-spacing: .28em; text-transform: uppercase; padding: 14px 0 14px 14px; }
+.lb__body { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; padding: 12px 0; touch-action: pan-y; }
+.lb__body img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; animation: fragIn .5s var(--ease); }
+.lb__nav { display: flex; justify-content: center; gap: 20px; }
+.lb__nav button { background: none; border: 1px solid currentColor; color: inherit; width: 44px; height: 44px; border-radius: 50%; font-size: 16px; }
+
 /* ── Móvil ── */
 @media (max-width: 700px) {
   .libro1__line { left: 94%; }

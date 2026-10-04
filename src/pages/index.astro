@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import hero from '../assets/darling-hero-paris.jpeg';
 import autora from '../assets/autora.jpg';
@@ -9,7 +9,17 @@ import sombras from '../assets/portada-sombras.png';
 import nieve from '../assets/portada-amor-nieve.jpeg';
 import { escriboSobre, frags, links } from '../data/content.js';
 import { viajes } from '../data/viajes.js';
+import { aventurero } from '../data/aventurero.js';
+import firma1 from '../assets/firma-1.jpeg';
+import firma2 from '../assets/firma-2.jpeg';
 const fotos = import.meta.glob('../assets/viaje/*.jpeg', { eager: true });
+const aventuras = import.meta.glob('../assets/aventurero/*.jpeg', { eager: true });
+const libros = [...new Set(aventurero.map((a) => a.libro))];
+const galeria = await Promise.all(aventurero.map(async (a) => {
+  const src = aventuras[`../assets/aventurero/${a.file}.jpeg`].default;
+  const full = await getImage({ src, width: 1400, format: 'webp' });
+  return { ...a, src, full: full.src };
+}));
 ---
 <Base
   title="Darling Salas — Escritora"
@@ -130,16 +140,46 @@ const fotos = import.meta.glob('../assets/viaje/*.jpeg', { eager: true });
       </div>
     </section>
 
-    <!-- 6 · La autora -->
+    <!-- 6 · Mi libro aventurero -->
+    <section id="aventurero" class="aventura" data-chapter>
+      <div class="aventura__head reveal">
+        <span class="label">V — Mi libro aventurero</span>
+        <p class="aventura__big">Mis libros también viajan.</p>
+        <p class="syn">Trenes, aeropuertos, montañas y ciudades: cada foto es una historia que siguió su camino en manos de quien la leyó.</p>
+      </div>
+      {libros.length > 1 && (
+        <div class="aventura__chips" id="advChips">
+          <button class="chip is-on" data-libro="todos">Todos</button>
+          {libros.map((l) => <button class="chip" data-libro={l}>{l}</button>)}
+        </div>
+      )}
+      <ul class="adv" id="adv">
+        {galeria.map((g, i) => (
+          <li class="adv__item" data-libro={g.libro} hidden={i >= 12}>
+            <button type="button" data-full={g.full} data-alt={g.place ? `${g.libro}, en ${g.place}` : `${g.libro} de viaje`} aria-label="Ampliar foto">
+              <Image src={g.src} alt={g.place ? `${g.libro}, en ${g.place}` : `${g.libro} de viaje`} widths={[360, 720]} sizes="(min-width: 1300px) 25vw, (min-width: 900px) 33vw, 50vw" loading={i < 4 ? 'eager' : 'lazy'} />
+            </button>
+            {g.place && <span class="label">{g.place}</span>}
+          </li>
+        ))}
+      </ul>
+      <button class="adv__more" id="advMore" type="button">Ver más</button>
+    </section>
+
+    <!-- 7 · La autora -->
     <section id="autora" class="autora" data-chapter>
       <div class="autora__wrap">
         <div class="autora__photo">
           <Image src={autora} alt="Darling Salas leyendo en un café" widths={[380, 760]} sizes="380px" />
         </div>
         <div class="autora__text reveal">
-          <span class="label">V — La autora</span>
+          <span class="label">VI — La autora</span>
           <p class="autora__big">Una autora que encontró en las palabras una forma de quedarse cerca de lo que alguna vez perdió.</p>
           <p class="syn">Darling Salas escribe sobre el duelo, las ausencias, la memoria, el amor y la reconstrucción. Sus obras nacen de una mirada íntima hacia aquello que nos atraviesa y permanece incluso después de que una historia termina.</p>
+          <div class="autora__firma">
+            <Image src={firma1} alt="Darling firmando un ejemplar" widths={[180, 360]} sizes="180px" />
+            <Image src={firma2} alt="Darling firmando un ejemplar" widths={[180, 360]} sizes="180px" />
+          </div>
         </div>
       </div>
     </section>
@@ -147,7 +187,7 @@ const fotos = import.meta.glob('../assets/viaje/*.jpeg', { eager: true });
     <!-- 7 · La viajera -->
     <section id="viajera" class="viajera" data-chapter>
       <div class="viajera__head reveal">
-        <span class="label">VI — La viajera</span>
+        <span class="label">VII — La viajera</span>
         <p class="viajera__big">Entre un libro y otro, se escapa a conocer el mundo.</p>
         <p class="syn">Darling es una viajera incansable. Le gusta perderse por calles que no conoce, subir hasta donde el aire cambia, colgarse de un puente en plena selva o ver un volcán de noche. Cada lugar le deja algo que, tarde o temprano, termina en una página.</p>
       </div>
@@ -173,7 +213,7 @@ const fotos = import.meta.glob('../assets/viaje/*.jpeg', { eager: true });
     <!-- 8 · Contacto -->
     <section id="contacto" class="contacto" data-chapter>
       <div class="contacto__top">
-        <span class="label">VII — Sigue el recorrido</span>
+        <span class="label">VIII — Sigue el recorrido</span>
         <a href={links.instagram} class="contacto__handle" target="_blank" rel="noopener">{links.handle}</a>
         <div class="contacto__links">
           <a href={links.instagram} target="_blank" rel="noopener">Instagram</a>
@@ -201,6 +241,13 @@ const fotos = import.meta.glob('../assets/viaje/*.jpeg', { eager: true });
       </div>
       <a href="#" id="fragBuy" class="cta__main" target="_blank" rel="noopener">Comprar el libro</a>
     </div>
+  </div>
+
+  <!-- Visor de fotos -->
+  <div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Foto ampliada">
+    <div class="lb__top label"><span id="lbCount"></span><button id="lbClose">Cerrar</button></div>
+    <div class="lb__body"><img id="lbImg" alt="" /></div>
+    <div class="lb__nav"><button id="lbPrev" aria-label="Anterior">←</button><button id="lbNext" aria-label="Siguiente">→</button></div>
   </div>
 
   <script>
