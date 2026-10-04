@@ -55,8 +55,8 @@ function update() {
   });
 
   const w = rects[1];
-  const wp = cl(-w.top / (w.height - vh));
-  const wi = Math.min(4, Math.floor(wp * 5));
+  const wp = cl(-w.top / Math.max(1, w.height - vh));
+  const wi = Math.min(escriboSobre.lines.length - 1, Math.floor(wp * 5)) || 0;
   if (wi !== words.i) setWord(wi);
 
   const prog = cl(scrollY / (root.scrollHeight - vh));
