@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>html{scroll-behavior:smooth}body{margin:0;background:#efe9df;-webkit-font-smoothing:antialiased;overflow-x:clip}a{color:inherit;text-decoration:none}a:hover{opacity:.7}@keyframes fragIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}</style>
+</helmet>
+<div style="font-family:'Jost',sans-serif;font-weight:300;background:{{ bg }};color:{{ fg }};transition:background-color 1.4s ease,color 1.4s ease;overflow-x:clip">
+
+  <div style="position:fixed;top:0;left:0;height:2px;width:{{ progress }};background:{{ fg }};z-index:31;transition:background-color 1.4s"></div>
+  <header style="position:fixed;top:0;left:0;right:0;z-index:30;height:72px;padding:0 clamp(20px,4vw,48px);display:flex;align-items:center;justify-content:space-between;pointer-events:none;color:{{ headColor }}">
+    <a href="#hero" style="pointer-events:auto;font-family:'EB Garamond',serif;font-size:22px;letter-spacing:.08em">D · S</a>
+    <span style="font-size:11px;letter-spacing:.28em;text-transform:uppercase">{{ chapter }}</span>
+    <button onClick="{{ toggleMenu }}" style="pointer-events:auto;background:none;border:0;color:inherit;font:400 11px 'Jost',sans-serif;letter-spacing:.28em;text-transform:uppercase;padding:14px 0 14px 14px;cursor:pointer">{{ menuLabel }}</button>
+  </header>
+
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:29;background:#24211f;color:#efe9df;display:flex;flex-direction:column;justify-content:center;padding:0 clamp(24px,8vw,120px);gap:4px">
+      <a href="#hero" onClick="{{ closeMenu }}" style="display:flex;align-items:baseline;gap:20px;font-family:'EB Garamond',serif;font-size:clamp(40px,7vw,88px);line-height:1.1"><span style="font:400 12px 'Jost',sans-serif;letter-spacing:.2em;color:#9b948a">I</span>Inicio</a>
+      <a href="#libro1" onClick="{{ closeMenu }}" style="display:flex;align-items:baseline;gap:20px;font-family:'EB Garamond',serif;font-size:clamp(40px,7vw,88px);line-height:1.1"><span style="font:400 12px 'Jost',sans-serif;letter-spacing:.2em;color:#9b948a">II</span>Libros</a>
+      <a href="#autora" onClick="{{ closeMenu }}" style="display:flex;align-items:baseline;gap:20px;font-family:'EB Garamond',serif;font-size:clamp(40px,7vw,88px);line-height:1.1"><span style="font:400 12px 'Jost',sans-serif;letter-spacing:.2em;color:#9b948a">III</span>Sobre mí</a>
+      <a href="#contacto" onClick="{{ closeMenu }}" style="display:flex;align-items:baseline;gap:20px;font-family:'EB Garamond',serif;font-size:clamp(40px,7vw,88px);line-height:1.1"><span style="font:400 12px 'Jost',sans-serif;letter-spacing:.2em;color:#9b948a">IV</span>Escritos</a>
+      <a href="#contacto" onClick="{{ closeMenu }}" style="display:flex;align-items:baseline;gap:20px;font-family:'EB Garamond',serif;font-size:clamp(40px,7vw,88px);line-height:1.1"><span style="font:400 12px 'Jost',sans-serif;letter-spacing:.2em;color:#9b948a">V</span>Contacto</a>
+    </div>
+  </sc-if>
+
+  <section id="hero" ref="{{ rHero }}" style="position:relative;min-height:100vh;overflow:hidden">
+    <div style="position:absolute;right:-4vw;top:12vh;width:clamp(260px,46vw,640px);aspect-ratio:520/580;transform:translateY({{ heroPar }})">
+      <img src="assets/darling-hero.jpg" alt="Darling Salas" style="display:block;width:100%;height:100%;object-fit:cover">
+    </div>
+    <div style="position:absolute;left:clamp(20px,4vw,48px);bottom:clamp(40px,9vh,96px);right:clamp(20px,4vw,48px);pointer-events:none;display:flex;flex-direction:column;gap:28px">
+      <h1 style="margin:0;font-family:'EB Garamond',serif;font-weight:400;font-size:clamp(76px,15vw,250px);line-height:.82;letter-spacing:-.03em">Darling<br>Salas</h1>
+      <div style="display:flex;flex-direction:column;align-items:flex-start;gap:20px">
+        <p style="margin:0;font-family:'EB Garamond',serif;font-size:clamp(20px,2vw,26px);max-width:22ch;line-height:1.3">Hay despedidas que nos rompen para siempre.</p>
+        <span style="display:flex;align-items:center;gap:14px;font-size:11px;letter-spacing:.28em;text-transform:uppercase">Desliza para entrar <span style="display:block;width:48px;height:1px;background:currentColor"></span></span>
+      </div>
+    </div>
+  </section>
+
+  <section ref="{{ rWords }}" style="height:380vh;position:relative">
+    <div style="position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:space-between;padding:96px clamp(20px,6vw,96px) clamp(28px,5vh,56px);box-sizing:border-box">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;font-size:11px;letter-spacing:.28em;text-transform:uppercase">
+        <span>Escribo sobre</span>
+        <span>{{ wordCount }}</span>
+      </div>
+      <div style="flex:1;min-height:0;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:clamp(16px,3vh,40px) clamp(32px,5vw,80px);padding:24px 0">
+        <div key="{{ wordKey }}" style="font-family:'EB Garamond',serif;font-size:min(12vw,20vh);line-height:.9;letter-spacing:-.03em;animation:fragIn .8s cubic-bezier(.2,.7,.2,1)">{{ wordNow }}</div>
+        <p key="{{ wordKeyP }}" style="margin:0;flex:0 1 46ch;max-height:46vh;overflow-y:auto;white-space:pre-line;font-family:'EB Garamond',serif;font-size:clamp(16px,1.35vw,20px);line-height:1.5;text-wrap:pretty;animation:fragIn 1s cubic-bezier(.2,.7,.2,1)">{{ wordLine }}</p>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px clamp(16px,3vw,40px);border-top:1px solid currentColor;padding-top:16px">
+        <sc-for list="{{ words }}" as="w" hint-placeholder-count="5">
+          <span style="display:flex;gap:8px;align-items:baseline;font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:400;opacity:{{ w.op }};transition:opacity .4s"><span style="font-size:10px">0{{ w.n }}</span>{{ w.t }}</span>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section id="libro1" ref="{{ rB1 }}" style="position:relative;min-height:150vh;overflow:hidden;display:flex;align-items:center">
+    <div style="position:absolute;left:58%;top:0;bottom:0;width:1px;background:#2e2a30"></div>
+    <div style="position:absolute;left:calc(58% - 11px);top:18%;width:22px;height:22px;border-radius:50%;background:#9a7fc4;transform:translateY({{ par1 }})"></div>
+    <div style="position:absolute;left:-2vw;top:8vh;font-family:'EB Garamond',serif;font-size:clamp(120px,24vw,380px);line-height:.8;color:#c9badd;letter-spacing:-.04em;white-space:nowrap">La flor</div>
+    <div style="position:relative;width:100%;padding:0 clamp(20px,6vw,96px);display:flex;flex-wrap:wrap;align-items:center;gap:clamp(48px,8vw,120px)">
+      <div style="flex:1 1 320px;display:flex;flex-direction:column;gap:28px;max-width:520px;opacity:{{ rev1 }};transform:translateY({{ rev1y }});transition:opacity .8s,transform 1s cubic-bezier(.2,.7,.2,1)">
+        <span style="font-size:11px;letter-spacing:.28em;text-transform:uppercase">I</span>
+        <h2 style="margin:0;font-family:'EB Garamond',serif;font-weight:400;font-size:clamp(40px,5.4vw,76px);line-height:1;letter-spacing:-.01em">La flor que atravesó el pavimento</h2>
+        <p style="white-space:pre-line;margin:0;font-family:'EB Garamond',serif;font-size:clamp(22px,2.2vw,28px);line-height:1.35">«No importa qué tan rotos estemos, aquella esperanza que parece perdida
+volverá a aparecer,
+como la semilla que se perdió en el pavimento
+y nadie la encontró,
+y nadie la vio
+hasta que florecio...»</p>
+        <p style="margin:0;font-size:16px;line-height:1.75;max-width:40ch">Memoria, duelo y la decisión de volver a florecer en los lugares donde nadie esperaba vida.</p>
+        <div style="display:flex;gap:32px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:400">
+          <a href="#" style="border-bottom:1px solid currentColor;padding-bottom:6px">Comprar</a>
+          <a href="#" onClick="{{ openF0 }}" style="padding-bottom:6px">Leer fragmento</a>
+        </div>
+      </div>
+      <div style="flex:1 1 300px;display:flex;justify-content:flex-end;margin-right:clamp(-120px,-6vw,-20px)">
+        <img src="assets/portada-la-flor.jpeg" alt="Portada de La flor que atravesó el pavimento" style="display:block;width:clamp(240px,34vw,480px);aspect-ratio:1009/1561;object-fit:cover;transform:translateY({{ par1b }}) rotate(-3deg);box-shadow:30px 40px 80px -40px rgba(60,40,90,.55)">
+      </div>
+    </div>
+  </section>
+
+  <section id="libro2" ref="{{ rB2 }}" style="position:relative;min-height:150vh;overflow:hidden;display:flex;align-items:center">
+    <div style="position:absolute;left:0;right:0;top:70%;height:1px;background:#474b58"></div>
+    <div style="position:absolute;left:8%;right:8%;top:calc(70% + 18px);height:1px;background:#e8836b;opacity:.5"></div>
+    <div style="position:absolute;left:20%;right:20%;top:calc(70% + 36px);height:1px;background:#474b58"></div>
+    <div style="position:absolute;right:-3vw;top:6vh;font-family:'EB Garamond',serif;font-size:clamp(120px,24vw,380px);line-height:.8;color:#353945;letter-spacing:-.04em;white-space:nowrap">Recuerdo</div>
+    <div style="position:relative;width:100%;padding:0 clamp(20px,6vw,96px);display:flex;flex-wrap:wrap;flex-direction:row-reverse;align-items:center;gap:clamp(48px,8vw,120px)">
+      <div style="flex:1 1 320px;display:flex;flex-direction:column;gap:28px;max-width:520px;opacity:{{ rev2 }};transform:translateY({{ rev2y }});transition:opacity .8s,transform 1s cubic-bezier(.2,.7,.2,1)">
+        <span style="font-size:11px;letter-spacing:.28em;text-transform:uppercase">II</span>
+        <h2 style="margin:0;font-family:'EB Garamond',serif;font-weight:400;font-size:clamp(40px,5.4vw,76px);line-height:1">El último recuerdo que dejó tu muerte</h2>
+        <p style="margin:0;font-family:'EB Garamond',serif;font-size:clamp(22px,2.2vw,28px);line-height:1.35">«Solo quien ha vivido el amargo dolor que deja una muerte, entiende que nunca nada vuelve a ser igual...ni siquiera uno.»</p>
+        <p style="margin:0;font-size:16px;line-height:1.75;max-width:40ch">Un libro sobre el duelo, las despedidas que no se dijeron y lo que permanece de quien ya no está.</p>
+        <div style="display:flex;gap:32px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:400">
+          <a href="#" style="border-bottom:1px solid currentColor;padding-bottom:6px">Comprar</a>
+          <a href="#" onClick="{{ openF1 }}" style="padding-bottom:6px">Leer fragmento</a>
+        </div>
+      </div>
+      <div style="flex:1 1 300px;display:flex;justify-content:flex-start;margin-left:clamp(-120px,-6vw,-20px)">
+        <img src="assets/portada-ultimo-recuerdo.png" alt="Portada de El último recuerdo que dejó tu muerte" style="display:block;width:clamp(240px,32vw,440px);aspect-ratio:2/3;object-fit:cover;filter:saturate(.55) contrast(.96);transform:translateY({{ par2b }}) rotate(2.5deg);box-shadow:0 40px 90px -30px rgba(0,0,0,.9),0 0 0 1px #3a3e4a">
+      </div>
+    </div>
+  </section>
+
+  <section id="libro3" ref="{{ rB3 }}" style="position:relative;min-height:150vh;overflow:hidden;display:flex;align-items:center">
+    <div style="position:absolute;left:50%;top:50%;width:min(70vw,720px);height:min(90vh,820px);transform:translate(-50%,-50%) translateY({{ par3 }});border:1px solid #8f8c87"></div>
+    <div style="position:absolute;left:50%;top:50%;width:min(70vw,720px);height:1px;transform:translate(-50%,0);background:#8f8c87"></div>
+    <div style="position:relative;width:100%;padding:0 clamp(20px,6vw,96px);display:flex;flex-direction:column;align-items:center;text-align:center;gap:36px">
+      <img src="assets/portada-sombras.png" alt="Portada de Sobreviviendo a las sombras" style="display:block;width:clamp(220px,24vw,320px);aspect-ratio:2/3;object-fit:cover;transform:translateY({{ par3b }});box-shadow:24px 36px 70px -36px rgba(20,20,20,.7)">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:24px;max-width:640px;opacity:{{ rev3 }};transform:translateY({{ rev3y }});transition:opacity .8s,transform 1s cubic-bezier(.2,.7,.2,1)">
+        <span style="font-size:11px;letter-spacing:.28em;text-transform:uppercase">III</span>
+        <h2 style="margin:0;font-family:'EB Garamond',serif;font-weight:400;font-size:clamp(40px,5.4vw,76px);line-height:1">Sobreviviendo a las sombras</h2>
+        <p style="margin:0;font-family:'EB Garamond',serif;font-size:clamp(22px,2.2vw,28px);line-height:1.35">«La despedida dolió, pero lo que vino después me destruyó».</p>
+        <div style="display:flex;gap:32px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:400">
+          <a href="#" style="border-bottom:1px solid currentColor;padding-bottom:6px">Comprar</a>
+          <a href="#" onClick="{{ openF2 }}" style="padding-bottom:6px">Leer fragmento</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="libro4" ref="{{ rB4 }}" style="position:relative;min-height:150vh;overflow:hidden;display:flex;align-items:center">
+    <div style="position:absolute;left:clamp(-120px,-4vw,-40px);top:50%;width:min(78vw,860px);aspect-ratio:1;border-radius:50%;background:#f3ead0;transform:translateY(-50%) translateY({{ par4 }})"></div>
+    <div style="position:absolute;right:-2vw;bottom:6vh;font-family:'EB Garamond',serif;font-size:clamp(120px,24vw,380px);line-height:.8;color:#dccfae;letter-spacing:-.04em;white-space:nowrap">Nieve</div>
+    <div style="position:relative;width:100%;padding:0 clamp(20px,6vw,96px);display:flex;flex-wrap:wrap;align-items:center;gap:clamp(48px,8vw,120px)">
+      <div style="flex:1 1 300px;display:flex;justify-content:center">
+        <img src="assets/portada-amor-nieve.jpeg" alt="Portada de Amor en tiempos de nieve" style="display:block;width:clamp(230px,28vw,400px);aspect-ratio:1036/1600;object-fit:cover;filter:saturate(.7);transform:translateY({{ par4b }}) rotate(-2deg);box-shadow:30px 40px 80px -40px rgba(20,30,60,.55)">
+      </div>
+      <div style="flex:1 1 320px;display:flex;flex-direction:column;gap:28px;max-width:520px;opacity:{{ rev5 }};transform:translateY({{ rev5y }});transition:opacity .8s,transform 1s cubic-bezier(.2,.7,.2,1)">
+        <span style="font-size:11px;letter-spacing:.28em;text-transform:uppercase">IV</span>
+        <h2 style="margin:0;font-family:'EB Garamond',serif;font-weight:400;font-size:clamp(40px,5.4vw,76px);line-height:1;letter-spacing:-.01em">Amor en tiempos de nieve</h2>
+        <div style="display:flex;gap:32px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:400">
+          <a href="#" style="border-bottom:1px solid currentColor;padding-bottom:6px">Comprar</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="autora" ref="{{ rAut }}" style="position:relative;min-height:120vh;display:flex;align-items:center;padding:clamp(80px,12vh,160px) clamp(20px,6vw,96px)">
+    <div style="width:100%;display:flex;flex-wrap:wrap;gap:clamp(40px,8vw,120px);align-items:flex-end">
+      <div style="flex:0 1 380px;width:100%;aspect-ratio:3/4;margin-left:clamp(-96px,-6vw,-20px)">
+        <image-slot id="p2-autora" shape="rect" placeholder="Retrato de Darling escribiendo o en su espacio"></image-slot>
+      </div>
+      <div style="flex:1 1 380px;display:flex;flex-direction:column;gap:32px;opacity:{{ rev4 }};transform:translateY({{ rev4y }});transition:opacity .8s,transform 1s cubic-bezier(.2,.7,.2,1)">
+        <span style="font-size:11px;letter-spacing:.28em;text-transform:uppercase">V — La autora</span>
+        <p style="margin:0;font-family:'EB Garamond',serif;font-size:clamp(34px,4.4vw,60px);line-height:1.08;letter-spacing:-.01em;max-width:20ch">Una autora que encontró en las palabras una forma de quedarse cerca de lo que alguna vez perdió.</p>
+        <p style="margin:0;font-size:16px;line-height:1.75;max-width:46ch">Darling Salas escribe sobre el duelo, las ausencias, la memoria, el amor y la reconstrucción. Sus obra nacen de una mirada íntima hacia aquello que nos atraviesa y permanece incluso después de que una historia termina.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto" ref="{{ rCon }}" style="min-height:90vh;display:flex;flex-direction:column;justify-content:space-between;padding:clamp(100px,14vh,180px) clamp(20px,6vw,96px) 32px">
+    <div style="display:flex;flex-direction:column;gap:40px">
+      <span style="font-size:11px;letter-spacing:.28em;text-transform:uppercase">VI — Sigue el recorrido</span>
+      <a href="#" style="font-family:'EB Garamond',serif;font-size:clamp(48px,9vw,140px);line-height:.9;letter-spacing:-.02em">@darlingsalas</a>
+      <div style="display:flex;flex-wrap:wrap;gap:16px 40px;font-size:13px;letter-spacing:.18em;text-transform:uppercase;font-weight:400">
+        <a href="#">Instagram</a><a href="#">Facebook</a><a href="#">Escritos</a><a href="#">contacto@darlingsalas.com</a>
+      </div>
+    </div>
+    <footer style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;font-size:11px;color:#8f887e;padding-top:64px">
+      <span>© 2026 Darling Salas</span>
+      <a href="#">Sitio desarrollado por Brinza Solutions</a>
+    </footer>
+  </section>
+<sc-if value="{{ fragOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:40;background:{{ frag.bg }};color:{{ frag.fg }};display:flex;flex-direction:column;justify-content:space-between;padding:24px clamp(20px,6vw,96px) 32px">
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:11px;letter-spacing:.28em;text-transform:uppercase;font-weight:400">
+        <span>{{ frag.title }}</span>
+        <button onClick="{{ closeF }}" style="background:none;border:0;color:inherit;font:400 11px 'Jost',sans-serif;letter-spacing:.28em;text-transform:uppercase;padding:14px 0 14px 14px;cursor:pointer">Cerrar</button>
+      </div>
+      <div onClick="{{ nextF }}" style="flex:1;min-height:0;overflow-y:auto;display:flex;align-items:flex-start;cursor:pointer;padding:16px 0">
+        <p key="{{ frag.key }}" style="margin:auto 0;white-space:pre-line;max-width:{{ frag.mw }};font-family:'EB Garamond',serif;font-size:{{ frag.fs }};line-height:1.1;letter-spacing:-.015em;text-wrap:balance;animation:fragIn .7s cubic-bezier(.2,.7,.2,1)">{{ frag.line }}</p>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:20px">
+        <div style="display:flex;align-items:center;gap:20px;font-size:12px;letter-spacing:.2em">
+          <button onClick="{{ prevF }}" aria-label="Anterior" style="background:none;border:1px solid currentColor;color:inherit;width:44px;height:44px;border-radius:50%;cursor:pointer;font-size:16px">←</button>
+          <span>{{ frag.count }}</span>
+          <button onClick="{{ nextF }}" aria-label="Siguiente" style="background:none;border:1px solid currentColor;color:inherit;width:44px;height:44px;border-radius:50%;cursor:pointer;font-size:16px">→</button>
+        </div>
+        <a href="#" style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:400;border-bottom:1px solid currentColor;padding-bottom:6px">Comprar el libro</a>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { frag: null, fi: 0, menu: false, scenes: {}, active: 0, prog: 0, wordsP: 0 };
+  rHero = React.createRef(); rWords = React.createRef(); rB1 = React.createRef(); rB2 = React.createRef();
+  rB3 = React.createRef(); rB4 = React.createRef(); rAut = React.createRef(); rCon = React.createRef();
+  palette = [
+    ['#efe9df', '#24211f', 'Darling'], ['#e8e2d8', '#24211f', 'Palabras'], ['#d8cce7', '#2e2440', 'I · La flor'],
+    ['#2a2d36', '#efe9df', 'II · El recuerdo'], ['#c3c1bd', '#1d1c1b', 'III · Las sombras'], ['#e6dcc0', '#1e2b45', 'IV · La nieve'], ['#efe9df', '#24211f', 'La autora'], ['#24211f', '#efe9df', 'Contacto']
+  ];
+  componentDidMount() {
+    this.onS = () => { if (!this.raf) this.raf = requestAnimationFrame(() => { this.raf = null; this.update(); }); };
+    window.addEventListener('scroll', this.onS, { passive: true });
+    window.addEventListener('resize', this.onS);
+    this.update();
+  }
+  frags = [
+    { title: 'La flor que atravesó el pavimento', bg: '#d8cce7', fg: '#2e2440', lines: [
+      '«No importa qué tan rotos estemos, aquella esperanza que parece perdida\nvolverá a aparecer,\ncomo la semilla que se perdió en el pavimento\ny nadie la encontró,\ny nadie la vio\nhasta que florecio...»',
+      '«pero hay algo aquí\n—en mi pecho\ny en mis recuerdos-que no me deja ser feliz\naunque siempre lo intento.»',
+      '«Me repito una y otra y otra vez\nlo bonito que fue lo nuestro, intentando guardar en mí\nel sonido de tus latidos,\nel calor de tus abrazos\ny la forma en que hacías del mundo un lugar un poco más seguro.\nPero el miedo y el tiempo,\nlentamente,\nme arrebatan\nlo poco que me queda;\nvan borrando detalles\nque juré nunca olvidar.»'] },
+    { title: 'El último recuerdo que dejó tu muerte', bg: '#2a2d36', fg: '#efe9df', lines: [
+      '«Solo quien ha vivido el amargo dolor que deja una muerte, entiende que nunca nada vuelve a ser igual...ni siquiera uno.»',
+      '«He conocido muchas maneras de morir, pero ninguna se compara a la forma en que morí el día en que dejaste de respirar sobre mis brazos».',
+      '«Todo lo que sé sobre la muerte es que me arrebató todo lo que quería».',
+      '«Tú, la despedida y este dolor que nunca termina».',
+      '«Despierta, por favor. Que mi vida sin ti no tiene ningún sentido».',
+      '«Las sonrisas que se usan como disfraz duelen más. Todo duele, hasta el despertar... pero hay quienes no lo comprenden».',
+      '«No entienden que la vida no vuelve a ser la misma después de decirle adiós a quien amas...»',
+      '« Me duele el último recuerdo, el último beso y el último abrazo. Me duele esta vida sin ti »'] },
+    { title: 'Sobreviviendo a las sombras', bg: '#c3c1bd', fg: '#1d1c1b', lines: [
+      '«La despedida dolió, pero lo que vino después me destruyó».',
+      '«Aquel día se había convertido en noche y la noche en semanas y las semanas en oscuridad».',
+      '«Lloré durante tus últimos minutos, mientras decía que te amaba. Lloré cuando el otro lado de la vida nos soltó las manos, lloré al mirar la hora del deceso, lloré en el velorio y en el funeral, lloré antes y lloré después, porque a pesar de que en el fondo lo sabía... aceptarlo nunca fácil».'] }
+  ];
+  fragVals() {
+    const s = this.state, b = s.frag == null ? null : this.frags[s.frag];
+    const open = i => e => { e && e.preventDefault(); this.setState({ frag: i, fi: 0 }); };
+    const step = d => e => { e && e.stopPropagation(); this.setState(x => ({ fi: (x.fi + d + this.frags[x.frag].lines.length) % this.frags[x.frag].lines.length })); };
+    return {
+      openF0: open(0), openF1: open(1), openF2: open(2), fragOpen: !!b,
+      frag: b ? { ...b, line: b.lines[s.fi], count: (s.fi + 1) + ' / ' + b.lines.length, fs: b.lines[s.fi].length > 300 ? 'clamp(18px,2.1vw,28px)' : b.lines[s.fi].length > 160 ? 'clamp(22px,2.8vw,40px)' : b.lines[s.fi].length > 110 ? 'clamp(28px,4.2vw,60px)' : 'clamp(34px,5.6vw,80px)', mw: b.lines[s.fi].length > 200 ? '40ch' : '20ch', key: s.frag + '-' + s.fi } : {},
+      nextF: step(1), prevF: step(-1), closeF: () => this.setState({ frag: null })
+    };
+  }
+  componentWillUnmount() { window.removeEventListener('scroll', this.onS); window.removeEventListener('resize', this.onS); }
+  update() {
+    const vh = window.innerHeight, refs = [this.rHero, this.rWords, this.rB1, this.rB2, this.rB3, this.rB4, this.rAut, this.rCon];
+    const rects = refs.map(r => r.current ? r.current.getBoundingClientRect() : null);
+    if (rects.some(r => !r)) return;
+    let active = 0; rects.forEach((r, i) => { if (r.top < vh * 0.55) active = i; });
+    const cl = v => Math.max(0, Math.min(1, v));
+    const scenes = rects.map(r => ({ rev: cl((vh * 0.8 - r.top) / (vh * 0.5)), top: r.top }));
+    const w = rects[1]; const wordsP = cl(-w.top / (w.height - vh));
+    const doc = document.documentElement; const prog = cl(window.scrollY / (doc.scrollHeight - vh));
+    this.setState({ active, scenes, wordsP, prog });
+  }
+  renderVals() {
+    const s = this.state, sc = i => s.scenes[i] || { rev: i === 0 ? 1 : 0, top: 0 };
+    const par = (i, k) => Math.max(-140, Math.min(140, sc(i).top * k)).toFixed(1) + 'px';
+    const rv = i => sc(i).rev, ry = i => ((1 - sc(i).rev) * 40).toFixed(1) + 'px';
+    const list = ['Memoria', 'Familia', 'Duelo', 'Amor', 'Resiliencia'];
+    const lines = ['«Me habría encantado volver a casa un día y que siguieras ahí, siendo tan fuerte, tan valiente. Me habría encantado que nos alcanzaran los años y que la muerte jamás se hubiera acercado, pero desearlo no fue suficiente y ahora que no estás tengo miedo de olvidar el sonido de tu risa y el calor que me daban tus brazos. Tengo miedo porque aunque me quedan los recuerdos, sé que hay cosas que no volverán jamás...»',
+      '«—Despierta,  —suplicaba a la vez que se sentaba en la silla que estaba junto a la camilla—. Te extraño. Necesito ver tus ojos una vez más. Necesito saber que sigues aquí. Quiero saber si me escuchas. Quiero verte sonreír. Quiero sentir una de tus caricias, un abrazo, una mirada tuya sobre mí, algo...»',
+      '«Lo más extraño del duelo es que a veces, aunque pasen los años todo se siente igual, de repente un día recuerdas el último abrazo y se te cae la vida a pedazos, otras veces crees que ya lo superaste porque llevas tiempo sin llorar, pero entonces hablas sobre esa persona y la vista se te nubla porque el dolor que dejó su ausencia todavía habita cada rincón de tu cuerpo.»',
+      '«Con un dolor en el pecho y el deseo de tener el poder para despertar a su amada de ese sueño profundo, se sentó en un rincón de la sala y comenzó a llorar con impotencia mientras la contemplaba... Quería grabarse hasta el último detalle de ella.»',
+      '«No había nada ni nadie,\npero estaba yo;\nasí que dejé que las gotas saladas continuaran su camino\nmientras me aferraba a mis piernas como quien se refugia en un abrazo\ny me permití, por un momento, escuchar el ruido\nque venía de adentro\ny entonces dejé que mi océano\nse hiciera uno solo con mi ser\ny bailé,\nbailé con mi tristeza,\nle di un beso a la oscuridad\ny le extendí mis brazos a la tormenta dejando que mi corazón\nse rompiera\nreparándose.»'];
+    const wi = Math.min(4, Math.floor(s.wordsP * 5));
+    const words = list.map((t, i) => ({ t, n: i + 1, op: i === wi ? 1 : 0.4 }));
+    const p = this.palette[s.active];
+    return {
+      rHero: this.rHero, rWords: this.rWords, rB1: this.rB1, rB2: this.rB2, rB3: this.rB3, rB4: this.rB4, rAut: this.rAut, rCon: this.rCon,
+      bg: p[0], fg: p[1], chapter: p[2], progress: (s.prog * 100).toFixed(1) + '%',
+      words, wordNow: list[wi], wordLine: lines[wi], wordKey: 'w' + wi, wordKeyP: 'p' + wi, wordCount: '0' + (wi + 1) + ' / 05', heroPar: (Math.min(0, sc(0).top) * -0.12).toFixed(1) + 'px',
+      par1: par(2, -0.1), par1b: par(2, 0.06), par2b: par(3, 0.06), par3: par(4, -0.04), par3b: par(4, 0.05),
+      rev1: rv(2), rev1y: ry(2), rev2: rv(3), rev2y: ry(3), rev3: rv(4), rev3y: ry(4), rev4: rv(6), rev4y: ry(6), rev5: rv(5), rev5y: ry(5), par4: par(5, -0.05), par4b: par(5, 0.06),
+      ...this.fragVals(),
+      headColor: s.menu ? '#efe9df' : p[1], menuOpen: s.menu, menuLabel: s.menu ? 'Cerrar' : 'Menú',
+      toggleMenu: () => this.setState(x => ({ menu: !x.menu })), closeMenu: () => this.setState({ menu: false })
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,209 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import hero from '../assets/darling-hero-paris.jpeg';
+import autora from '../assets/autora.jpg';
+import flor from '../assets/portada-la-flor.jpeg';
+import recuerdo from '../assets/portada-ultimo-recuerdo.png';
+import sombras from '../assets/portada-sombras.png';
+import nieve from '../assets/portada-amor-nieve.jpeg';
+import { escriboSobre, frags, links } from '../data/content.js';
+import { viajes } from '../data/viajes.js';
+const fotos = import.meta.glob('../assets/viaje/*.jpeg', { eager: true });
+---
+<Base
+  title="Darling Salas — Escritora"
+  description="Darling Salas escribe sobre el duelo, las ausencias, la memoria, el amor y la reconstrucción."
+>
+  <div class="progress" aria-hidden="true"><i id="progress"></i></div>
+
+  <header class="head">
+    <a href="#hero" class="head__logo">D · S</a>
+    <span class="label" id="chapter">Darling</span>
+    <button class="head__menu" id="menuBtn" aria-expanded="false" aria-controls="menu">Menú</button>
+  </header>
+
+  <nav class="menu" id="menu" hidden aria-label="Principal">
+    <a href="#hero"><span>I</span>Inicio</a>
+    <a href="#libro1"><span>II</span>Libros</a>
+    <a href="#autora"><span>III</span>Sobre mí</a>
+    <a href="#contacto"><span>IV</span>Escritos</a>
+    <a href="#contacto"><span>V</span>Contacto</a>
+  </nav>
+
+  <main>
+    <!-- 0 · Hero -->
+    <section id="hero" class="hero" data-chapter>
+      <div class="hero__photo">
+        <Image src={hero} alt="Darling Salas" widths={[520, 720]} sizes="(min-width: 1400px) 640px, 46vw" loading="eager" />
+      </div>
+      <div class="hero__text">
+        <h1>Darling<br />Salas</h1>
+        <div class="hero__foot">
+          <p>Hay despedidas que nos rompen para siempre.</p>
+          <span class="label hero__cue">Desliza para entrar <i></i></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1 · Escribo sobre -->
+    <section class="words" data-chapter id="escribo">
+      <div class="words__sticky">
+        <div class="words__top label"><span>Escribo sobre</span><span id="wordCount">01 / 05</span></div>
+        <div class="words__mid">
+          <div class="words__word" id="wordNow">{escriboSobre.words[0]}</div>
+          <p class="words__line" id="wordLine">{escriboSobre.lines[0]}</p>
+        </div>
+        <ol class="words__list" id="wordList">
+          {escriboSobre.words.map((w, i) => <li style={i === 0 ? '' : 'opacity:.4'}><small>0{i + 1}</small>{w}</li>)}
+        </ol>
+      </div>
+    </section>
+
+    <!-- 2 · Libro I -->
+    <section id="libro1" class="libro libro1" data-chapter data-pa="-0.1" data-pb="0.06">
+      <i class="libro1__line"></i><i class="libro1__dot"></i>
+      <div class="bgword libro1__bg" aria-hidden="true">La flor</div>
+      <div class="libro__wrap">
+        <div class="libro__text reveal">
+          <span class="label">I</span>
+          <h2>La flor que atravesó el pavimento</h2>
+          <p class="quote pre">{frags[0].lines[0]}</p>
+          <p class="syn">Memoria, duelo y la decisión de volver a florecer en los lugares donde nadie esperaba vida.</p>
+          <div class="cta"><a href={links.buy[0]} class="cta__main" target="_blank" rel="noopener">Comprar</a><a href="#" data-frag="0">Leer fragmento</a></div>
+        </div>
+        <div class="libro__cover libro1__cover">
+          <Image src={flor} alt="Portada de La flor que atravesó el pavimento" widths={[480, 720, 960]} sizes="(min-width: 1400px) 480px, 34vw" />
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 · Libro II -->
+    <section id="libro2" class="libro libro2" data-chapter data-pb="0.06">
+      <i class="libro2__l1"></i><i class="libro2__l2"></i><i class="libro2__l3"></i>
+      <div class="bgword libro2__bg" aria-hidden="true">Recuerdo</div>
+      <div class="libro__wrap libro__wrap--rev">
+        <div class="libro__text reveal">
+          <span class="label">II</span>
+          <h2>El último recuerdo que dejó tu muerte</h2>
+          <p class="quote">{frags[1].lines[0]}</p>
+          <p class="syn">Un libro sobre el duelo, las despedidas que no se dijeron y lo que permanece de quien ya no está.</p>
+          <div class="cta"><a href={links.buy[1]} class="cta__main" target="_blank" rel="noopener">Comprar</a><a href="#" data-frag="1">Leer fragmento</a></div>
+        </div>
+        <div class="libro__cover libro2__cover">
+          <Image src={recuerdo} alt="Portada de El último recuerdo que dejó tu muerte" widths={[440, 660, 880]} sizes="(min-width: 1400px) 440px, 32vw" />
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 · Libro III -->
+    <section id="libro3" class="libro libro3" data-chapter data-pa="-0.04" data-pb="0.05">
+      <i class="libro3__frame"></i><i class="libro3__mid"></i>
+      <div class="libro3__wrap">
+        <div class="libro__cover libro3__cover">
+          <Image src={sombras} alt="Portada de Sobreviviendo a las sombras" widths={[320, 480, 640]} sizes="(min-width: 1400px) 320px, 24vw" />
+        </div>
+        <div class="libro3__text reveal">
+          <span class="label">III</span>
+          <h2>Sobreviviendo a las sombras</h2>
+          <p class="quote">{frags[2].lines[0]}</p>
+          <div class="cta"><a href={links.buy[2]} class="cta__main" target="_blank" rel="noopener">Comprar</a><a href="#" data-frag="2">Leer fragmento</a></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 · Libro IV -->
+    <section id="libro4" class="libro libro4" data-chapter data-pa="-0.05" data-pb="0.06">
+      <i class="libro4__moon"></i>
+      <div class="bgword libro4__bg" aria-hidden="true">Nieve</div>
+      <div class="libro__wrap">
+        <div class="libro4__coverbox">
+          <div class="libro__cover libro4__cover">
+            <Image src={nieve} alt="Portada de Amor en tiempos de nieve" widths={[400, 600, 800]} sizes="(min-width: 1400px) 400px, 28vw" />
+          </div>
+        </div>
+        <div class="libro__text reveal">
+          <span class="label">IV</span>
+          <h2>Amor en tiempos de nieve</h2>
+          <div class="cta"><a href={links.buy[3]} class="cta__main" target="_blank" rel="noopener">Comprar</a></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 · La autora -->
+    <section id="autora" class="autora" data-chapter>
+      <div class="autora__wrap">
+        <div class="autora__photo">
+          <Image src={autora} alt="Darling Salas leyendo en un café" widths={[380, 760]} sizes="380px" />
+        </div>
+        <div class="autora__text reveal">
+          <span class="label">V — La autora</span>
+          <p class="autora__big">Una autora que encontró en las palabras una forma de quedarse cerca de lo que alguna vez perdió.</p>
+          <p class="syn">Darling Salas escribe sobre el duelo, las ausencias, la memoria, el amor y la reconstrucción. Sus obra nacen de una mirada íntima hacia aquello que nos atraviesa y permanece incluso después de que una historia termina.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7 · La viajera -->
+    <section id="viajera" class="viajera" data-chapter>
+      <div class="viajera__head reveal">
+        <span class="label">VI — La viajera</span>
+        <p class="viajera__big">Entre un libro y otro, se escapa a conocer el mundo.</p>
+        <p class="syn">Darling es una viajera incansable. Le gusta perderse por calles que no conoce, subir hasta donde el aire cambia, colgarse de un puente en plena selva o ver un volcán de noche. Cada lugar le deja algo que, tarde o temprano, termina en una página.</p>
+      </div>
+      <div class="viajera__bar label">
+        <span id="carCount">01 / {String(viajes.length).padStart(2, '0')}</span>
+        <div class="viajera__nav">
+          <button id="carPrev" aria-label="Anterior">←</button>
+          <button id="carNext" aria-label="Siguiente">→</button>
+        </div>
+      </div>
+      <ul class="car" id="car" tabindex="0" aria-label="Fotos de viajes">
+        {viajes.map((v, i) => (
+          <li class="car__item">
+            <figure>
+              <Image src={fotos[`../assets/viaje/${v.file}.jpeg`].default} alt={v.place ? `Darling en ${v.place}` : 'Darling de viaje'} widths={[340, 680]} sizes="(min-width: 900px) 340px, 70vw" loading={i < 3 ? 'eager' : 'lazy'} />
+              {v.place && <figcaption class="label">{v.place}</figcaption>}
+            </figure>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- 8 · Contacto -->
+    <section id="contacto" class="contacto" data-chapter>
+      <div class="contacto__top">
+        <span class="label">VII — Sigue el recorrido</span>
+        <a href={links.instagram} class="contacto__handle" target="_blank" rel="noopener">{links.handle}</a>
+        <div class="contacto__links">
+          <a href={links.instagram} target="_blank" rel="noopener">Instagram</a>
+          <a href={links.facebook} target="_blank" rel="noopener">Facebook</a>
+          <a href={links.escritos}>Escritos</a>
+          <a href={`mailto:${links.email}`}>{links.email}</a>
+        </div>
+      </div>
+      <footer>
+        <span>© 2026 Darling Salas</span>
+        <a href="#">Sitio desarrollado por Brinza Solutions</a>
+      </footer>
+    </section>
+  </main>
+
+  <!-- Modal de fragmentos -->
+  <div class="frag" id="frag" hidden role="dialog" aria-modal="true" aria-labelledby="fragTitle">
+    <div class="frag__top label"><span id="fragTitle"></span><button id="fragClose">Cerrar</button></div>
+    <div class="frag__body" id="fragBody"><p id="fragText"></p></div>
+    <div class="frag__bar">
+      <div class="frag__nav">
+        <button id="fragPrev" aria-label="Anterior">←</button>
+        <span id="fragCount"></span>
+        <button id="fragNext" aria-label="Siguiente">→</button>
+      </div>
+      <a href="#" id="fragBuy" class="cta__main" target="_blank" rel="noopener">Comprar el libro</a>
+    </div>
+  </div>
+
+  <script>
+    import '../scripts/main.js';
+  </script>
+</Base>
