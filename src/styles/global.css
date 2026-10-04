@@ -190,6 +190,7 @@ html[data-menu] .head { color: #efe9df; background: none; }
 .contacto__handle { font-family: var(--serif); font-size: clamp(48px, 9vw, 140px); line-height: .9; letter-spacing: -.02em; overflow-wrap: anywhere; }
 .contacto__links { display: flex; flex-wrap: wrap; gap: 16px 40px; font-size: 13px; letter-spacing: .18em; text-transform: uppercase; font-weight: 400; }
 .contacto footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; font-size: 11px; color: #8f887e; padding-top: 64px; }
+.contacto footer a { text-decoration: underline; text-underline-offset: 3px; }
 
 /* ── Modal de fragmentos ── */
 .frag {
