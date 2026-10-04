@@ -30,7 +30,7 @@ export const frags = [
       '«Lloré durante tus últimos minutos, mientras decía que te amaba. Lloré cuando el otro lado de la vida nos soltó las manos, lloré al mirar la hora del deceso, lloré en el velorio y en el funeral, lloré antes y lloré después, porque a pesar de que en el fondo lo sabía... aceptarlo nunca fácil».'] },
     { title: 'Amor en tiempos de nieve', bg: '#e6dcc0', fg: '#1e2b45', lines: [
       '«Cuando sientas que me he ido\nbúscame en tu pecho,\nbúscame entre memorias\ndonde mis recuerdos\nhan hecho nido.\n\nBúscame en cada uno de tus latidos siempre he estado\ny estaré justo a tu lado,\nme veas o no, ahí estaré\nabrazándote las heridas\ny besando tu valentía».',
-      '«Te pido disculpas por el mar\nque estoy derramando sobre tu cama\nno quisiera mojar tus sábanas\npero me pesan las lágrimas;\nya no me las puedo tragar».',
+      '«Te pido disculpas por el mar\nque estoy derramando\nsobre tu cama\nno quisiera mojar tus sábanas\npero me pesan las lágrimas;\nya no me las puedo tragar».',
       '«No quiero que te vayas,\nte quiero aquí,\ncomo antes,\nasí que despierta,\nrecuerda que aquí está tu hogar;\nque tú eres mi hogar».'] }
   ];
 
