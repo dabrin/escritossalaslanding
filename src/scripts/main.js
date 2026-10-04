@@ -161,58 +161,81 @@ car.addEventListener('scroll', () => {
 }, { passive: true });
 
 // ── Galería "Mi libro aventurero" ──
-const adv = $('adv');
-if (adv) {
-  const PER = 12;
-  const items = [...adv.children];
-  const more = $('advMore');
-  let libro = 'todos', open = false;
-  const matches = () => items.filter((li) => libro === 'todos' || li.dataset.libro === libro);
-  function renderAdv() {
-    const m = matches();
-    items.forEach((li) => { li.hidden = true; });
-    m.forEach((li, i) => { li.hidden = !open && i >= PER; });
-    more.hidden = open || m.length <= PER;
-  }
-  more.addEventListener('click', () => { open = true; renderAdv(); });
-  const chips = $('advChips');
-  if (chips) chips.addEventListener('click', (e) => {
-    const b = e.target.closest('.chip'); if (!b) return;
-    libro = b.dataset.libro; open = false;
-    [...chips.children].forEach((c) => c.classList.toggle('is-on', c === b));
-    renderAdv();
-  });
-  renderAdv();
+import { mensajes } from '../data/mensajes.js';
 
-  // Visor
-  const lb = $('lb'), lbImg = $('lbImg');
-  let list = [], li = 0;
-  const showLb = () => {
-    const b = list[li].querySelector('button');
-    lbImg.src = b.dataset.full; lbImg.alt = b.dataset.alt;
-    $('lbCount').textContent = `${li + 1} / ${list.length}`;
-    restart(lbImg);
+const PER = 12;
+const books = [...document.querySelectorAll('.advbook')];
+const lb = $('lb'), lbImg = $('lbImg');
+let list = [], li = 0;
+
+function setBook(book, open) {
+  const head = book.querySelector('.advbook__head');
+  head.setAttribute('aria-expanded', String(open));
+  book.querySelector('.advbook__panel').hidden = !open;
+  book.classList.toggle('is-open', open);
+}
+
+books.forEach((book) => {
+  const items = [...book.querySelectorAll('.adv__item')];
+  const more = book.querySelector('.adv__more');
+  let shown = PER;
+  const render = () => {
+    items.forEach((el, i) => { el.hidden = i >= shown; });
+    more.hidden = shown >= items.length;
   };
-  const stepLb = (d) => { li = (li + d + list.length) % list.length; showLb(); };
-  const closeLb = () => { lb.hidden = true; lbImg.removeAttribute('src'); root.removeAttribute('data-lock'); };
-  adv.addEventListener('click', (e) => {
+  book.querySelector('.advbook__head').addEventListener('click', () => {
+    const open = book.querySelector('.advbook__head').getAttribute('aria-expanded') !== 'true';
+    books.forEach((b) => setBook(b, false));
+    setBook(book, open);
+    if (open) setTimeout(() => book.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }), 60);
+  });
+  more.addEventListener('click', () => { shown += PER; render(); });
+  render();
+
+  // Mensajes de lectores, de uno en uno
+  const box = book.querySelector('.msgs');
+  if (box) {
+    const msgs = mensajes[book.dataset.book];
+    let mi = 0;
+    const text = box.querySelector('.msgs__text');
+    const draw = () => {
+      text.textContent = msgs[mi];
+      box.querySelector('.msgs__count').textContent = `${mi + 1} / ${msgs.length}`;
+      restart(text);
+    };
+    const go = (d) => { mi = (mi + d + msgs.length) % msgs.length; draw(); };
+    box.querySelector('.msgs__prev').addEventListener('click', () => go(-1));
+    box.querySelector('.msgs__next').addEventListener('click', () => go(1));
+  }
+
+  // Visor de fotos (recorre todas las fotos de ese libro)
+  book.querySelector('.adv').addEventListener('click', (e) => {
     const b = e.target.closest('button[data-full]'); if (!b) return;
-    list = matches(); li = list.indexOf(b.closest('li'));
+    list = items; li = items.indexOf(b.closest('li'));
     lb.hidden = false; root.setAttribute('data-lock', ''); showLb(); $('lbClose').focus();
   });
-  $('lbClose').addEventListener('click', closeLb);
-  $('lbPrev').addEventListener('click', () => stepLb(-1));
-  $('lbNext').addEventListener('click', () => stepLb(1));
-  addEventListener('keydown', (e) => {
-    if (lb.hidden) return;
-    if (e.key === 'Escape') closeLb();
-    if (e.key === 'ArrowRight') stepLb(1);
-    if (e.key === 'ArrowLeft') stepLb(-1);
-  });
-  let lx = 0, ly = 0;
-  lb.addEventListener('touchstart', (e) => { lx = e.touches[0].clientX; ly = e.touches[0].clientY; }, { passive: true });
-  lb.addEventListener('touchend', (e) => {
-    const dx = e.changedTouches[0].clientX - lx, dy = e.changedTouches[0].clientY - ly;
-    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) stepLb(dx < 0 ? 1 : -1);
-  });
+});
+
+function showLb() {
+  const b = list[li].querySelector('button');
+  lbImg.src = b.dataset.full; lbImg.alt = b.dataset.alt;
+  $('lbCount').textContent = `${li + 1} / ${list.length}`;
+  restart(lbImg);
 }
+const stepLb = (d) => { li = (li + d + list.length) % list.length; showLb(); };
+const closeLb = () => { lb.hidden = true; lbImg.removeAttribute('src'); root.removeAttribute('data-lock'); };
+$('lbClose').addEventListener('click', closeLb);
+$('lbPrev').addEventListener('click', () => stepLb(-1));
+$('lbNext').addEventListener('click', () => stepLb(1));
+addEventListener('keydown', (e) => {
+  if (lb.hidden) return;
+  if (e.key === 'Escape') closeLb();
+  if (e.key === 'ArrowRight') stepLb(1);
+  if (e.key === 'ArrowLeft') stepLb(-1);
+});
+let lx = 0, ly = 0;
+lb.addEventListener('touchstart', (e) => { lx = e.touches[0].clientX; ly = e.touches[0].clientY; }, { passive: true });
+lb.addEventListener('touchend', (e) => {
+  const dx = e.changedTouches[0].clientX - lx, dy = e.changedTouches[0].clientY - ly;
+  if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) stepLb(dx < 0 ? 1 : -1);
+});

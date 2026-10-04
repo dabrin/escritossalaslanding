@@ -9,17 +9,18 @@ import sombras from '../assets/portada-sombras.png';
 import nieve from '../assets/portada-amor-nieve.jpeg';
 import { escriboSobre, frags, links } from '../data/content.js';
 import { viajes } from '../data/viajes.js';
-import { aventurero } from '../data/aventurero.js';
+import { aventurero, libros } from '../data/aventurero.js';
+import { mensajes } from '../data/mensajes.js';
 import firma1 from '../assets/firma-1.jpeg';
 import firma2 from '../assets/firma-2.jpeg';
 const fotos = import.meta.glob('../assets/viaje/*.jpeg', { eager: true });
 const aventuras = import.meta.glob('../assets/aventurero/*.jpeg', { eager: true });
-const libros = [...new Set(aventurero.map((a) => a.libro))];
 const galeria = await Promise.all(aventurero.map(async (a) => {
   const src = aventuras[`../assets/aventurero/${a.file}.jpeg`].default;
   const full = await getImage({ src, width: 1400, format: 'webp' });
   return { ...a, src, full: full.src };
 }));
+const bloques = libros.map((l) => ({ ...l, fotos: galeria.filter((g) => g.libro === l.id), mensajes: mensajes[l.id] ?? [] }));
 ---
 <Base
   title="Darling Salas — Escritora"
@@ -145,25 +146,47 @@ const galeria = await Promise.all(aventurero.map(async (a) => {
       <div class="aventura__head reveal">
         <span class="label">V — Mi libro aventurero</span>
         <p class="aventura__big">Mis libros también viajan.</p>
-        <p class="syn">Trenes, aeropuertos, montañas y ciudades: cada foto es una historia que siguió su camino en manos de quien la leyó.</p>
+        <p class="syn">Trenes, aeropuertos, montañas y ciudades: cada foto es una historia que siguió su camino en manos de quien la leyó. Y entre viaje y viaje, sus palabras me llegan a mí.</p>
+        <p class="aventura__nota">«No se imaginan lo feliz que me hace cuando llevan mi libro con ustedes y me envían fotos. Gracias por eso».</p>
       </div>
-      {libros.length > 1 && (
-        <div class="aventura__chips" id="advChips">
-          <button class="chip is-on" data-libro="todos">Todos</button>
-          {libros.map((l) => <button class="chip" data-libro={l}>{l}</button>)}
-        </div>
-      )}
-      <ul class="adv" id="adv">
-        {galeria.map((g, i) => (
-          <li class="adv__item" data-libro={g.libro} hidden={i >= 12}>
-            <button type="button" data-full={g.full} data-alt={g.place ? `${g.libro}, en ${g.place}` : `${g.libro} de viaje`} aria-label="Ampliar foto">
-              <Image src={g.src} alt={g.place ? `${g.libro}, en ${g.place}` : `${g.libro} de viaje`} widths={[360, 720]} sizes="(min-width: 1300px) 25vw, (min-width: 900px) 33vw, 50vw" loading={i < 4 ? 'eager' : 'lazy'} />
+      <div class="advbooks">
+        {bloques.map((b) => (
+          <article class="advbook" data-book={b.id}>
+            <button type="button" class="advbook__head" aria-expanded="false" aria-controls={`panel-${b.id}`}>
+              <span class="advbook__title">{b.titulo}</span>
+              <span class="advbook__meta label">{b.fotos.length} fotos{b.mensajes.length > 0 ? ` · ${b.mensajes.length} mensajes` : ''}</span>
+              <span class="advbook__thumbs" aria-hidden="true">
+                {b.fotos.slice(0, 3).map((g) => <Image src={g.src} alt="" widths={[96, 192]} sizes="48px" loading="lazy" />)}
+              </span>
+              <span class="advbook__icon" aria-hidden="true"></span>
             </button>
-            {g.place && <span class="label">{g.place}</span>}
-          </li>
+            <div class="advbook__panel" id={`panel-${b.id}`} hidden>
+              {b.mensajes.length > 0 && (
+                <div class="msgs" data-book={b.id}>
+                  <span class="label">Lo que me escriben</span>
+                  <p class="msgs__text just pre">{b.mensajes[0]}</p>
+                  <div class="msgs__nav">
+                    <button type="button" class="msgs__prev" aria-label="Mensaje anterior">←</button>
+                    <span class="msgs__count label">1 / {b.mensajes.length}</span>
+                    <button type="button" class="msgs__next" aria-label="Mensaje siguiente">→</button>
+                  </div>
+                </div>
+              )}
+              <span class="label">Fotos</span>
+              <ul class="adv">
+                {b.fotos.map((g, i) => (
+                  <li class="adv__item" hidden={i >= 12}>
+                    <button type="button" data-full={g.full} data-alt={`${b.titulo}, de viaje`} aria-label="Ampliar foto">
+                      <Image src={g.src} alt={`${b.titulo}, de viaje`} widths={[360, 720]} sizes="(min-width: 1300px) 25vw, (min-width: 900px) 33vw, 50vw" loading="lazy" />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+              <button class="adv__more" type="button" hidden={b.fotos.length <= 12}>Ver más</button>
+            </div>
+          </article>
         ))}
-      </ul>
-      <button class="adv__more" id="advMore" type="button">Ver más</button>
+      </div>
     </section>
 
     <!-- 7 · La autora -->
