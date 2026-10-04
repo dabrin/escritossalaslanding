@@ -52,7 +52,7 @@ const fotos = import.meta.glob('../assets/viaje/*.jpeg', { eager: true });
         <div class="words__top label"><span>Escribo sobre</span><span id="wordCount">01 / 05</span></div>
         <div class="words__mid">
           <div class="words__word" id="wordNow">{escriboSobre.words[0]}</div>
-          <p class="words__line" id="wordLine">{escriboSobre.lines[0]}</p>
+          <p class={`words__line${escriboSobre.lines[0].includes('\n') ? '' : ' just'}`} id="wordLine">{escriboSobre.lines[0]}</p>
         </div>
         <ol class="words__list" id="wordList">
           {escriboSobre.words.map((w, i) => <li style={i === 0 ? '' : 'opacity:.4'}><small>0{i + 1}</small>{w}</li>)}
@@ -125,7 +125,7 @@ const fotos = import.meta.glob('../assets/viaje/*.jpeg', { eager: true });
         <div class="libro__text reveal">
           <span class="label">IV</span>
           <h2>Amor en tiempos de nieve</h2>
-          <div class="cta"><a href={links.buy[3]} class="cta__main" target="_blank" rel="noopener">Comprar</a></div>
+          <div class="cta"><a href={links.buy[3]} class="cta__main" target="_blank" rel="noopener">Comprar</a><a href="#" data-frag="3">Leer fragmento</a></div>
         </div>
       </div>
     </section>

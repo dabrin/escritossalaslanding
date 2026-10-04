@@ -21,11 +21,17 @@ export const frags = [
       '«Despierta, por favor. Que mi vida sin ti no tiene ningún sentido».',
       '«Las sonrisas que se usan como disfraz duelen más. Todo duele, hasta el despertar... pero hay quienes no lo comprenden».',
       '«No entienden que la vida no vuelve a ser la misma después de decirle adiós a quien amas...»',
-      '« Me duele el último recuerdo, el último beso y el último abrazo. Me duele esta vida sin ti »'] },
+      '« Me duele el último recuerdo, el último beso y el último abrazo. Me duele esta vida sin ti »',
+      '«Te amo con la misma esencia del día en que te conocí y con todo el peso de estos años; a corazón abierto y amor eterno.\n\nTe amo...»',
+      '«Ten paciencia. El tiempo será tu mejor aliado», le decían.\nSin embargo, eran los mismos segundos sobre aquel reloj los que la fragmentaban cada vez más. Era el peso de los minutos sobre las agujas los que le iban borrando la esperanza y el deseo de continuar.'] },
     { title: 'Sobreviviendo a las sombras', bg: '#c3c1bd', fg: '#1d1c1b', lines: [
       '«La despedida dolió, pero lo que vino después me destruyó».',
       '«Aquel día se había convertido en noche y la noche en semanas y las semanas en oscuridad».',
-      '«Lloré durante tus últimos minutos, mientras decía que te amaba. Lloré cuando el otro lado de la vida nos soltó las manos, lloré al mirar la hora del deceso, lloré en el velorio y en el funeral, lloré antes y lloré después, porque a pesar de que en el fondo lo sabía... aceptarlo nunca fácil».'] }
+      '«Lloré durante tus últimos minutos, mientras decía que te amaba. Lloré cuando el otro lado de la vida nos soltó las manos, lloré al mirar la hora del deceso, lloré en el velorio y en el funeral, lloré antes y lloré después, porque a pesar de que en el fondo lo sabía... aceptarlo nunca fácil».'] },
+    { title: 'Amor en tiempos de nieve', bg: '#e6dcc0', fg: '#1e2b45', lines: [
+      '«Cuando sientas que me he ido\nbúscame en tu pecho,\nbúscame entre memorias\ndonde mis recuerdos\nhan hecho nido.\n\nBúscame en cada uno de tus latidos siempre he estado\ny estaré justo a tu lado,\nme veas o no, ahí estaré\nabrazándote las heridas\ny besando tu valentía.»',
+      '«Te pido disculpas por el mar\nque estoy derramando sobre tu cama\nno quisiera mojar tus sábanas\npero me pesan las lágrimas;\nya no me las puedo tragar.»',
+      '«No quiero que te vayas,\nte quiero aquí,\ncomo antes,\nasí que despierta,\nrecuerda que aquí está tu hogar;\nque tú eres mi hogar.»'] }
   ];
 
 // Capítulos del scroll: [fondo, texto, rótulo de cabecera]

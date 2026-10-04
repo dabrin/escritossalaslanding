@@ -100,6 +100,9 @@ html[data-menu] .head { color: #efe9df; transition: none; }
 .words__list li { display: flex; gap: 8px; align-items: baseline; font-size: 12px; letter-spacing: .2em; text-transform: uppercase; font-weight: 400; transition: opacity .4s; }
 .words__list small { font-size: 10px; }
 
+.just { text-align: justify; hyphens: auto; text-wrap: pretty; }
+.frag__body p.just { text-wrap: pretty; }
+
 /* ── Libros: patrón común ── */
 .libro { position: relative; min-height: 150vh; overflow: hidden; display: flex; align-items: center; }
 .libro__wrap { position: relative; width: 100%; padding: 0 var(--pad); display: flex; flex-wrap: wrap; align-items: center; gap: clamp(48px, 8vw, 120px); }

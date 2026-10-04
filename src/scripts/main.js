@@ -11,12 +11,14 @@ const words = { i: 0, now: $('wordNow'), line: $('wordLine'), count: $('wordCoun
 let activeChapter = -1;
 let raf = 0;
 
+const isProse = (t) => Math.max(...t.split('\n').map((l) => l.length)) > 90;
 const restart = (el) => { el.style.animation = 'none'; void el.offsetWidth; el.style.animation = ''; };
 
 function setWord(i) {
   words.i = i;
   words.now.textContent = escriboSobre.words[i];
   words.line.textContent = escriboSobre.lines[i];
+  words.line.classList.toggle('just', isProse(escriboSobre.lines[i]));
   words.line.scrollTop = 0;
   words.count.textContent = `0${i + 1} / 05`;
   words.items.forEach((li, n) => { li.style.opacity = n === i ? 1 : 0.4; });
@@ -90,7 +92,9 @@ function render() {
   const b = frags[book], line = b.lines[fi];
   fragText.textContent = line;
   fragText.style.fontSize = fontSize(line.length);
-  fragText.style.maxWidth = line.length > 200 ? '40ch' : '20ch';
+  const prose = isProse(line);
+  fragText.classList.toggle('just', prose);
+  fragText.style.maxWidth = prose || line.length > 200 ? '40ch' : '20ch';
   $('fragCount').textContent = `${fi + 1} / ${b.lines.length}`;
   $('fragBody').scrollTop = 0;
   restart(fragText);
