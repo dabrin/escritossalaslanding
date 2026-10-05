@@ -277,9 +277,18 @@ html[data-menu] .head { color: #efe9df; background: none; }
 
 /* ── Móvil ── */
 @media (max-width: 700px) {
-  .libro1__line { left: 94%; }
-  .libro1__dot { left: calc(94% - 11px); }
+  /* Hero: foto más grande y bloque de texto más compacto para que el nombre no tape la cara */
+  .hero__photo { width: 84vw; right: -3vw; top: 76px; }
+  .hero__text { bottom: 36px; gap: 18px; }
+  .hero h1 { font-size: 64px; }
+  .hero__foot { gap: 14px; }
+  .hero__foot p { font-size: 18px; max-width: 30ch; }
+  /* Libros: aire arriba para que la palabra gigante de fondo no se encime al título */
+  .libro { padding-top: 24vh; }
+  .libro1 .libro__wrap { padding-right: 44px; }
+  .libro1__line { left: calc(100% - 16px); }
+  .libro1__dot { left: calc(100% - 27px); }
   .libro3__mid { display: none; }
-  .libro3__frame { width: calc(100% - 16px); height: 76%; }
+  .libro3__frame { left: 8px; right: 8px; top: calc(24vh - 36px); bottom: 36px; width: auto; height: auto; transform: translateY(calc(var(--pa, 0) * 1px)); }
   .libro3__wrap { padding: 0 32px; }
 }
