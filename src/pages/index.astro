@@ -62,12 +62,16 @@ const bloques = libros.map((l) => ({ ...l, fotos: galeria.filter((g) => g.libro 
       <div class="words__sticky">
         <div class="words__top label"><span>Escribo sobre</span><span id="wordCount">01 / 05</span></div>
         <div class="words__mid">
-          <div class="words__word" id="wordNow">{escriboSobre.words[0]}</div>
+          <div class="words__word" id="wordNow" title="Toca para la siguiente palabra">{escriboSobre.words[0]}</div>
           <p class={`words__line${escriboSobre.lines[0].includes('\n') ? '' : ' just'}`} id="wordLine">{escriboSobre.lines[0]}</p>
         </div>
-        <ol class="words__list" id="wordList">
-          {escriboSobre.words.map((w, i) => <li style={i === 0 ? '' : 'opacity:.4'}><small>0{i + 1}</small>{w}</li>)}
-        </ol>
+        <nav class="words__nav" aria-label="Temas sobre los que escribo">
+          <ol class="words__list" id="wordList">
+            {escriboSobre.words.map((w, i) => (
+              <li><button type="button" data-i={i} class={i === 0 ? 'is-on' : ''} aria-current={i === 0 ? 'true' : undefined}><small>0{i + 1}</small>{w}</button></li>
+            ))}
+          </ol>
+        </nav>
       </div>
     </section>
 

@@ -7,23 +7,54 @@ const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const cl = (v) => Math.max(0, Math.min(1, v));
 
 // ── Scroll: capítulo activo, revelado, parallax, progreso ──
-const words = { i: 0, now: $('wordNow'), line: $('wordLine'), count: $('wordCount'), items: [...$('wordList').children] };
+const words = { i: 0, now: $('wordNow'), line: $('wordLine'), count: $('wordCount'), items: [...$('wordList').querySelectorAll('button')] };
 let activeChapter = -1;
 let raf = 0;
 
 const isProse = (t) => Math.max(...t.split('\n').map((l) => l.length)) > 90;
 const restart = (el) => { el.style.animation = 'none'; void el.offsetWidth; el.style.animation = ''; };
 
-function setWord(i) {
-  words.i = i;
-  words.now.textContent = escriboSobre.words[i];
+const wordChars = (t) => [...t].map((c, k) => `<span class="ch" style="--i:${k}">${c}</span>`).join('');
+let swapTimer = 0;
+
+function applyWord(i) {
+  words.now.innerHTML = wordChars(escriboSobre.words[i]);
+  words.now.setAttribute('aria-label', escriboSobre.words[i]);
   words.line.textContent = escriboSobre.lines[i];
   words.line.classList.toggle('just', isProse(escriboSobre.lines[i]));
   words.line.scrollTop = 0;
-  words.count.textContent = `0${i + 1} / 05`;
-  words.items.forEach((li, n) => { li.style.opacity = n === i ? 1 : 0.4; });
-  restart(words.now); restart(words.line);
 }
+
+// Cambio de palabra: lo anterior sale suave y la nueva entra letra por letra
+function setWord(i) {
+  words.i = i;
+  words.count.textContent = `0${i + 1} / 05`;
+  words.items.forEach((b, n) => {
+    b.classList.toggle('is-on', n === i);
+    if (n === i) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current');
+  });
+  clearTimeout(swapTimer);
+  if (reduce) { applyWord(i); return; }
+  [words.now, words.line].forEach((el) => { el.classList.remove('is-in'); el.classList.add('is-out'); });
+  swapTimer = setTimeout(() => {
+    applyWord(i);
+    [words.now, words.line].forEach((el) => el.classList.remove('is-out'));
+    void words.now.offsetWidth;
+    [words.now, words.line].forEach((el) => el.classList.add('is-in'));
+  }, 240);
+}
+
+// Tocar una palabra salta a su tramo de la sección (el salto es instantáneo; la transición lo suaviza)
+function goWord(i) {
+  const sec = document.querySelector('.words');
+  const y = sec.offsetTop + (sec.offsetHeight - innerHeight) * ((i + 0.5) / escriboSobre.words.length);
+  scrollTo({ top: y, behavior: 'instant' });
+}
+$('wordList').addEventListener('click', (e) => {
+  const b = e.target.closest('button[data-i]');
+  if (b) goWord(+b.dataset.i);
+});
+words.now.addEventListener('click', () => goWord((words.i + 1) % escriboSobre.words.length));
 
 function update() {
   raf = 0;

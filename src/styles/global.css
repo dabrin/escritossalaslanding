@@ -91,18 +91,30 @@ html[data-menu] .head { color: #efe9df; background: none; }
   flex: 1; min-height: 0; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between;
   gap: clamp(16px, 3vh, 40px) clamp(32px, 5vw, 80px); padding: 24px 0;
 }
-.words__word { font-family: var(--serif); font-size: min(12vw, 20vh); line-height: .9; letter-spacing: -.03em; animation: fragIn .8s var(--ease); }
+.words__word { font-family: var(--serif); font-size: min(12vw, 20vh); line-height: .9; letter-spacing: -.03em; cursor: pointer; }
 .words__line {
   flex: 0 1 46ch; max-height: 46vh; overflow-y: auto; white-space: pre-line;
   font-family: var(--serif); font-size: clamp(16px, 1.35vw, 20px); line-height: 1.5; text-wrap: pretty;
-  animation: fragIn 1s var(--ease);
 }
-.words__list {
-  list-style: none; margin: 0; padding: 16px 0 0; display: flex; flex-wrap: wrap;
-  gap: 8px clamp(16px, 3vw, 40px); border-top: 1px solid currentColor;
+.words__nav { border-top: 1px solid currentColor; padding-top: 10px; }
+.words__list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0 clamp(8px, 2vw, 28px); }
+.words__list button {
+  position: relative; display: flex; gap: 8px; align-items: baseline; background: none; border: 0; color: inherit; cursor: pointer;
+  padding: 10px 0 12px; font: 400 12px var(--sans); letter-spacing: .2em; text-transform: uppercase; opacity: .4; transition: opacity .5s ease;
 }
-.words__list li { display: flex; gap: 8px; align-items: baseline; font-size: 12px; letter-spacing: .2em; text-transform: uppercase; font-weight: 400; transition: opacity .4s; }
+.words__list button:hover, .words__list button.is-on { opacity: 1; }
+.words__list button::after { content: ''; position: absolute; left: 0; right: 0; bottom: 4px; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform .6s var(--ease); }
+.words__list button.is-on::after { transform: scaleX(1); }
 .words__list small { font-size: 10px; }
+
+/* Transición entre palabras: sale con desenfoque, entra letra por letra */
+.words__word, .words__line { transition: opacity .25s ease, transform .25s ease, filter .25s ease; }
+.words__word.is-out, .words__line.is-out { opacity: 0; filter: blur(6px); transform: translateY(-10px); }
+.words__word .ch { display: inline-block; white-space: pre; }
+.words__word.is-in .ch { animation: chIn .9s var(--ease) both; animation-delay: calc(var(--i) * 30ms); }
+.words__line.is-in { animation: lineIn .9s var(--ease) .15s both; }
+@keyframes chIn { from { opacity: 0; transform: translateY(.3em); filter: blur(10px); } to { opacity: 1; transform: none; filter: blur(0); } }
+@keyframes lineIn { from { opacity: 0; transform: translateY(18px); filter: blur(8px); } to { opacity: 1; transform: none; filter: blur(0); } }
 
 .just { text-align: justify; hyphens: auto; text-wrap: pretty; }
 .frag__body p.just { text-wrap: pretty; }
@@ -210,7 +222,8 @@ html[data-menu] .head { color: #efe9df; background: none; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
-  .words__word, .words__line, .frag__body p { animation: none; }
+  .words__word .ch, .words__line, .frag__body p { animation: none !important; }
+  .words__word, .words__line { transition: none; }
 }
 
 /* ── Mi libro aventurero ── */
