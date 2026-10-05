@@ -136,6 +136,7 @@ html[data-menu] .head { color: #efe9df; background: none; }
 .libro h2 { font-family: var(--serif); font-weight: 400; font-size: var(--h2); line-height: 1; letter-spacing: -.01em; }
 .quote { font-family: var(--serif); font-size: var(--q); line-height: 1.35; }
 .syn { font-size: 16px; line-height: 1.75; max-width: 40ch; }
+.syn .hook { font-weight: 400; }
 .cta { display: flex; gap: 32px; font-size: 12px; letter-spacing: .2em; text-transform: uppercase; font-weight: 400; }
 .cta a { padding-bottom: 6px; }
 .cta__main { border-bottom: 1px solid currentColor; }
@@ -233,7 +234,8 @@ html[data-menu] .head { color: #efe9df; background: none; }
 .aventura { position: relative; padding: clamp(80px, 12vh, 160px) var(--pad); display: flex; flex-direction: column; gap: 56px; }
 .aventura__head { display: flex; flex-direction: column; gap: 28px; }
 .aventura__big { font-family: var(--serif); font-size: clamp(34px, 4.4vw, 60px); line-height: 1.08; letter-spacing: -.01em; max-width: 22ch; }
-.aventura__nota { font-family: var(--serif); font-size: var(--q); line-height: 1.35; max-width: 34ch; opacity: .85; }
+.aventura__nota { margin: 0; display: flex; flex-direction: column; gap: 14px; max-width: 34ch; }
+.aventura__nota blockquote { margin: 0; font-family: var(--serif); font-size: var(--q); line-height: 1.35; opacity: .85; }
 .advbooks { display: flex; flex-direction: column; border-top: 1px solid currentColor; }
 .advbook { border-bottom: 1px solid currentColor; }
 .advbook__head { width: 100%; display: grid; grid-template-columns: 1fr auto; grid-template-areas: "title icon" "meta thumbs"; align-items: center; gap: 10px 20px; background: none; border: 0; color: inherit; text-align: left; padding: 28px 0; }

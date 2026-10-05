@@ -42,7 +42,7 @@ export const chapters = [
   ['#2a2d36', '#efe9df', 'II · El recuerdo'],
   ['#c3c1bd', '#1d1c1b', 'III · Las sombras'],
   ['#e6dcc0', '#1e2b45', 'IV · La nieve'],
-  ['#dde6ea', '#1b2a36', 'Mi libro aventurero'],
+  ['#dde6ea', '#1b2a36', 'El libro aventurero'],
   ['#efe9df', '#24211f', 'La autora'],
   ['#e6d3bd', '#33200f', 'La viajera'],
   ['#24211f', '#efe9df', 'Contacto'],
@@ -50,7 +50,7 @@ export const chapters = [
 
 // Enlaces provisionales: sustituir por los reales.
 export const links = {
-  buy: ['https://www.amazon.com/dp/B0HKYMQXQ3', 'https://www.amazon.com/dp/B0B7PXZH8Q', 'https://a.co/d/0ei34auL', 'https://a.co/d/0iZqW6Rr'],
+  buy: ['https://www.amazon.com/dp/B0HKYMQXQ3', 'https://www.amazon.com/dp/B0B7PXZH8Q', 'https://a.co/d/0ei34auL', 'https://a.co/d/0grM2LkQ'],
   instagram: 'https://www.instagram.com/escritossalas/',
   facebook: 'https://www.facebook.com/share/19oqmMNm8a/',
   escritos: '#',
