@@ -4,15 +4,13 @@ import Base from '../layouts/Base.astro';
 import hero from '../assets/darling-hero-paris.jpeg';
 import autora from '../assets/autora.jpg';
 import flor from '../assets/portada-la-flor.jpeg';
-import recuerdo from '../assets/portada-ultimo-recuerdo.png';
+import recuerdo from '../assets/portada-ultimo-recuerdo.jpeg';
 import sombras from '../assets/portada-sombras.png';
 import nieve from '../assets/portada-amor-nieve.jpeg';
-import { escriboSobre, frags, links } from '../data/content.js';
+import { escriboSobre, frags, links, mostrar } from '../data/content.js';
 import { viajes } from '../data/viajes.js';
 import { aventurero, libros } from '../data/aventurero.js';
 import { mensajes } from '../data/mensajes.js';
-import firma1 from '../assets/firma-1.jpeg';
-import firma2 from '../assets/firma-2.jpeg';
 const fotos = import.meta.glob('../assets/viaje/*.jpeg', { eager: true });
 const aventuras = import.meta.glob('../assets/aventurero/*.jpeg', { eager: true });
 const galeria = await Promise.all(aventurero.map(async (a) => {
@@ -38,8 +36,8 @@ const bloques = libros.map((l) => ({ ...l, fotos: galeria.filter((g) => g.libro 
     <a href="#hero"><span>I</span>Inicio</a>
     <a href="#libro1"><span>II</span>Libros</a>
     <a href="#autora"><span>III</span>Sobre mí</a>
-    <a href="#contacto"><span>IV</span>Escritos</a>
-    <a href="#contacto"><span>V</span>Contacto</a>
+    {mostrar.escritos && <a href="#contacto"><span>IV</span>Escritos</a>}
+    <a href="#contacto"><span>{mostrar.escritos ? 'V' : 'IV'}</span>Contacto</a>
   </nav>
 
   <main>
@@ -51,7 +49,7 @@ const bloques = libros.map((l) => ({ ...l, fotos: galeria.filter((g) => g.libro 
       <div class="hero__text">
         <h1>Darling<br />Salas</h1>
         <div class="hero__foot">
-          <p>Hay despedidas que nos rompen para siempre.</p>
+          <p>Hay despedidas que nos rompen para siempre</p>
           <span class="label hero__cue">Desliza para entrar <i></i></span>
         </div>
       </div>
@@ -134,12 +132,13 @@ const bloques = libros.map((l) => ({ ...l, fotos: galeria.filter((g) => g.libro 
       <div class="libro__wrap">
         <div class="libro4__coverbox">
           <div class="libro__cover libro4__cover">
-            <Image src={nieve} alt="Portada de Amor en tiempos de nieve" widths={[400, 600, 800]} sizes="(min-width: 1400px) 400px, 28vw" />
+            <Image src={nieve} alt="Portada de El amor en tiempos de nieve" widths={[400, 600, 800]} sizes="(min-width: 1400px) 400px, 28vw" />
           </div>
         </div>
         <div class="libro__text reveal">
           <span class="label">IV</span>
-          <h2>Amor en tiempos de nieve</h2>
+          <h2>El amor en tiempos de nieve</h2>
+          <p class="syn">Primer libro de la autora y primera edición de su exitosa novela El último recuerdo que dejó tu muerte.</p>
           <div class="cta"><a href={links.buy[3]} class="cta__main" target="_blank" rel="noopener">Comprar</a><a href="#" data-frag="3">Leer fragmento</a></div>
         </div>
       </div>
@@ -201,12 +200,8 @@ const bloques = libros.map((l) => ({ ...l, fotos: galeria.filter((g) => g.libro 
         </div>
         <div class="autora__text reveal">
           <span class="label">VI — La autora</span>
-          <p class="autora__big">Una autora que encontró en las palabras una forma de quedarse cerca de lo que alguna vez perdió.</p>
+          <p class="autora__big">Una autora que encontró en las palabras una forma de quedarse cerca de lo que alguna vez perdió</p>
           <p class="syn">Darling Salas escribe sobre el duelo, las ausencias, la memoria, el amor y la reconstrucción. Sus obras nacen de una mirada íntima hacia aquello que nos atraviesa y permanece incluso después de que una historia termina.</p>
-          <div class="autora__firma">
-            <Image src={firma1} alt="Darling firmando un ejemplar" widths={[180, 360]} sizes="180px" />
-            <Image src={firma2} alt="Darling firmando un ejemplar" widths={[180, 360]} sizes="180px" />
-          </div>
         </div>
       </div>
     </section>
@@ -215,7 +210,7 @@ const bloques = libros.map((l) => ({ ...l, fotos: galeria.filter((g) => g.libro 
     <section id="viajera" class="viajera" data-chapter>
       <div class="viajera__head reveal">
         <span class="label">VII — La viajera</span>
-        <p class="viajera__big">Entre un libro y otro, se escapa a conocer el mundo.</p>
+        <p class="viajera__big">Entre un libro y otro, se escapa a conocer el mundo</p>
         <p class="syn">Darling es una viajera incansable. Le gusta perderse por calles que no conoce, subir hasta donde el aire cambia, colgarse de un puente en plena selva o ver un volcán de noche. Cada lugar le deja algo que, tarde o temprano, termina en una página.</p>
       </div>
       <div class="viajera__bar label">
@@ -245,8 +240,8 @@ const bloques = libros.map((l) => ({ ...l, fotos: galeria.filter((g) => g.libro 
         <div class="contacto__links">
           <a href={links.instagram} target="_blank" rel="noopener">Instagram</a>
           <a href={links.facebook} target="_blank" rel="noopener">Facebook</a>
-          <a href={links.escritos}>Escritos</a>
-          <a href={`mailto:${links.email}`}>{links.email}</a>
+          {mostrar.escritos && <a href={links.escritos}>Escritos</a>}
+          {mostrar.correo && <a href={`mailto:${links.email}`}>{links.email}</a>}
         </div>
       </div>
       <footer>

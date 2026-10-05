@@ -1,4 +1,4 @@
-import { chapters, escriboSobre, frags, links } from '../data/content.js';
+import { chapters, escriboSobre, frags, links, wordTints } from '../data/content.js';
 
 const root = document.documentElement;
 const $ = (id) => document.getElementById(id);
@@ -13,6 +13,13 @@ let raf = 0;
 
 const isProse = (t) => Math.max(...t.split('\n').map((l) => l.length)) > 90;
 const restart = (el) => { el.style.animation = 'none'; void el.offsetWidth; el.style.animation = ''; };
+
+function paint() {
+  if (activeChapter < 0) return;
+  const [bg, fg] = chapters[activeChapter];
+  root.style.setProperty('--bg', activeChapter === 1 ? wordTints[words.i] : bg);
+  root.style.setProperty('--fg', fg);
+}
 
 const wordChars = (t) => [...t].map((c, k) => `<span class="ch" style="--i:${k}">${c}</span>`).join('');
 let swapTimer = 0;
@@ -34,6 +41,7 @@ function setWord(i) {
     if (n === i) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current');
   });
   clearTimeout(swapTimer);
+  paint();
   if (reduce) { applyWord(i); return; }
   [words.now, words.line].forEach((el) => { el.classList.remove('is-in'); el.classList.add('is-out'); });
   swapTimer = setTimeout(() => {
@@ -41,7 +49,7 @@ function setWord(i) {
     [words.now, words.line].forEach((el) => el.classList.remove('is-out'));
     void words.now.offsetWidth;
     [words.now, words.line].forEach((el) => el.classList.add('is-in'));
-  }, 240);
+  }, 260 + words.now.querySelectorAll('.ch').length * 22);
 }
 
 // Tocar una palabra salta a su tramo de la sección (el salto es instantáneo; la transición lo suaviza)
@@ -50,6 +58,7 @@ function goWord(i) {
   const y = sec.offsetTop + (sec.offsetHeight - innerHeight) * ((i + 0.5) / escriboSobre.words.length);
   scrollTo({ top: y, behavior: 'instant' });
 }
+words.now.innerHTML = wordChars(escriboSobre.words[0]);
 $('wordList').addEventListener('click', (e) => {
   const b = e.target.closest('button[data-i]');
   if (b) goWord(+b.dataset.i);
@@ -65,10 +74,8 @@ function update() {
   rects.forEach((r, i) => { if (r.top < vh * 0.55) active = i; });
   if (active !== activeChapter) {
     activeChapter = active;
-    const [bg, fg, label] = chapters[active];
-    root.style.setProperty('--bg', bg);
-    root.style.setProperty('--fg', fg);
-    $('chapter').textContent = label;
+    paint();
+    $('chapter').textContent = chapters[active][2];
   }
 
   sections.forEach((s, i) => {

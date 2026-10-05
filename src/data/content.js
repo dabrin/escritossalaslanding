@@ -28,7 +28,7 @@ export const frags = [
       '«La despedida dolió, pero lo que vino después me destruyó».',
       '«Aquel día se había\nconvertido en noche\ny la noche en semanas\ny las semanas en oscuridad».',
       '«Lloré durante tus últimos minutos, mientras decía que te amaba. Lloré cuando el otro lado de la vida nos soltó las manos, lloré al mirar la hora del deceso, lloré en el velorio y en el funeral, lloré antes y lloré después, porque a pesar de que en el fondo lo sabía... aceptarlo nunca fácil».'] },
-    { title: 'Amor en tiempos de nieve', bg: '#e6dcc0', fg: '#1e2b45', lines: [
+    { title: 'El amor en tiempos de nieve', bg: '#e6dcc0', fg: '#1e2b45', lines: [
       '«Cuando sientas que me he ido\nbúscame en tu pecho,\nbúscame entre memorias\ndonde mis recuerdos\nhan hecho nido.\n\nBúscame en cada uno de tus latidos siempre he estado\ny estaré justo a tu lado,\nme veas o no, ahí estaré\nabrazándote las heridas\ny besando tu valentía».',
       '«Te pido disculpas por el mar\nque estoy derramando\nsobre tu cama\nno quisiera mojar tus sábanas\npero me pesan las lágrimas;\nya no me las puedo tragar».',
       '«No quiero que te vayas,\nte quiero aquí,\ncomo antes,\nasí que despierta,\nrecuerda que aquí está tu hogar;\nque tú eres mi hogar».'] }
@@ -37,7 +37,7 @@ export const frags = [
 // Capítulos del scroll: [fondo, texto, rótulo de cabecera]
 export const chapters = [
   ['#efe9df', '#24211f', 'Darling'],
-  ['#e8e2d8', '#24211f', 'Palabras'],
+  ['#d3dcec', '#24211f', 'Palabras'],
   ['#d8cce7', '#2e2440', 'I · La flor'],
   ['#2a2d36', '#efe9df', 'II · El recuerdo'],
   ['#c3c1bd', '#1d1c1b', 'III · Las sombras'],
@@ -50,10 +50,16 @@ export const chapters = [
 
 // Enlaces provisionales: sustituir por los reales.
 export const links = {
-  buy: ['https://www.amazon.com/dp/B0HKYMQXQ3', 'https://www.amazon.com/dp/B0B7PXZH8Q', '#', '#'],
+  buy: ['https://www.amazon.com/dp/B0HKYMQXQ3', 'https://www.amazon.com/dp/B0B7PXZH8Q', 'https://a.co/d/0ei34auL', 'https://a.co/d/0iZqW6Rr'],
   instagram: 'https://www.instagram.com/escritossalas/',
   facebook: 'https://www.facebook.com/share/19oqmMNm8a/',
   escritos: '#',
   email: 'contacto@darlingsalas.com',
   handle: '@escritossalas',
 };
+
+// Fondo de la sección "Escribo sobre" para cada palabra: azul polvo, verde salvia, gris lavanda, rosa empolvado y lila suave.
+export const wordTints = ['#d3dcec', '#d3e3d6', '#dedbe8', '#f2dcd6', '#e4daee'];
+
+// Elementos ocultos por ahora. Poner en true para mostrarlos de nuevo.
+export const mostrar = { escritos: false, correo: false };
