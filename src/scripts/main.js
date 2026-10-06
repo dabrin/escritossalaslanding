@@ -126,13 +126,24 @@ function fontSize(len) {
   return len > 300 ? 'clamp(18px,2.1vw,28px)' : len > 160 ? 'clamp(22px,2.8vw,40px)' : len > 110 ? 'clamp(28px,4.2vw,60px)' : 'clamp(34px,5.6vw,80px)';
 }
 
+// Versos: el tamaño depende del verso más largo y del número de versos, para que ninguno se parta
+function verseSize(t) {
+  const rows = t.split('\n'), longest = Math.max(...rows.map((l) => l.length));
+  const byWidth = 80 / (longest * 0.52);   // vw por carácter aprox.
+  const byHeight = 56 / rows.length;       // vh por verso
+  return `clamp(18px, min(${byWidth.toFixed(2)}vw, ${byHeight.toFixed(2)}vh), 56px)`;
+}
+
 function render() {
   const b = frags[book], line = b.lines[fi];
   fragText.textContent = line;
   fragText.style.fontSize = fontSize(line.length);
   const prose = isProse(line);
+  const verse = !prose && line.includes('\n');
   fragText.classList.toggle('just', prose);
-  fragText.style.maxWidth = prose || line.length > 200 ? '40ch' : '20ch';
+  fragText.classList.toggle('verse', verse);
+  fragText.style.maxWidth = verse ? '' : prose || line.length > 200 ? '40ch' : '20ch';
+  if (verse) fragText.style.fontSize = verseSize(line);
   $('fragCount').textContent = `${fi + 1} / ${b.lines.length}`;
   $('fragBody').scrollTop = 0;
   restart(fragText);

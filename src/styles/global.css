@@ -120,6 +120,7 @@ html[data-menu] .head { color: #efe9df; background: none; }
 @keyframes lineIn { from { opacity: 0; transform: translateY(46px) scale(.985); filter: blur(12px); } to { opacity: 1; transform: none; filter: blur(0); } }
 
 .just { text-align: justify; hyphens: auto; text-wrap: pretty; }
+.frag__body p.verse { text-wrap: nowrap; text-align: left; line-height: 1.25; letter-spacing: 0; width: max-content; max-width: 100%; }
 .frag__body p.just { text-wrap: pretty; }
 
 /* ── Libros: patrón común ── */
